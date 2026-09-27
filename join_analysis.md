@@ -1,0 +1,3 @@
+# Phân tích lựa chọn `COUNT`
+
+Trong báo cáo Marketing, `Customers` là bảng trái và `Orders` là bảng phải của `LEFT JOIN`, nên mỗi khách hàng luôn có ít nhất một dòng kết quả. Với khách hàng chưa mua hàng, các cột của `Orders` trên dòng đó đều là `NULL`. `COUNT(*)` đếm mọi dòng, kể cả dòng được `LEFT JOIN` tạo ra để giữ khách hàng, vì vậy Charlie sẽ bị tính sai thành 1 đơn. Ngược lại, `COUNT(o.order_id)` chỉ đếm giá trị `order_id` khác `NULL`. Do `order_id` là khóa chính, mỗi giá trị được đếm tương ứng chính xác với một đơn hàng; Charlie vì thế nhận kết quả 0. Cách đếm cột khóa chính của bảng phụ vừa diễn đạt đúng nghiệp vụ, vừa tránh sai lệch do dòng đệm của phép nối ngoài.
